@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Transactions</div>
+    <div class="panel-body">
+        <table class="table table-striped table-bordered data_table" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>Property</th>
+                    <th>Room</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Purpose</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in transaction_list %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="{% url 'property_details' item.transaction_room.room_property.property_id %}">{{item.transaction_room.room_property.property_name|title}}</a></td>
+                        <td><a href="{% url 'room_details' item.transaction_room.room_id %}">{{item.transaction_room.room_name}}</a></td>
+                        <td>{{item.transaction_date}}</td>
+                        <td>{{item.transaction_amount}}</td>
+                        <td>{{item.transaction_reason}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+{% endblock %}

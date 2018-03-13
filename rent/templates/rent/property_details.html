@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% load rent_extras %}
+
+{% block content %}
+
+<h2>Room Details</h2>
+<div class="row">
+
+    
+    <div class="col-lg-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">Available Rooms</div>
+            <div class="panel-body">
+                <div class="row">
+                    {% for item in room %}
+                    {% if not item.room_id|is_room_occupied:lease_details %}
+                    <div class="col-lg-6 col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <i class="fa fa-home fa-2x"></i>
+                                    </div>
+                                    <div class="col-lg-2">
+                                            {{item.room_name|upper}}
+                                    </div>
+                                    <div class="col-lg-8 text-right">
+                                            {{item.room_description|title}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-content bg-warning">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item">
+                                        <i class="fa fa-map-marker fa-fw"></i> Location
+                                        <span class="pull-right small"><em>hello</em>
+                                        </span>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                            <i class="fa fa-calendar fa-fw"></i>Number of Rooms
+                                            <span class="pull-right text-muted small"><em>asdf</em>
+                                            </span>
+                                    </a>
+                                    <span  class="list-group-item">
+                                        <a href="#" class="btn btn-primary btn-xs">Add Lease</a>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="{% url 'room_details' item.room_id %}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel-footer">Panel Footer</div>   
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">Occupied Rooms</div>
+            <div class="panel-body">
+                <div class="row">
+                    {% for item in room %}
+                    {% if item.room_id|is_room_occupied:lease_details %}
+                    <div class="col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <i class="fa fa-home fa-2x"></i>
+                                    </div>
+                                    <div class="col-lg-2">
+                                            {{item.room_name|upper}}
+                                    </div>
+                                    <div class="col-lg-8 text-right">
+                                            {{item.room_description|title}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-content bg-warning">
+                                {% with filtervalue=lease_details|get_lease_by_room:item.room_id %}
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item">
+                                        <i class="fa fa-user fa-fw"></i> Tenant Name
+                                        <span class="pull-right small"><em>{{filtervalue.lease_tenant.tenant_name|title}}</em></span>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <i class="fa fa-phone fa-fw"></i>Contact
+                                        <span class="pull-right text-muted small"><em>{{ filtervalue.lease_tenant.tenant_contact }}</em></span>
+                                    </a>
+                                    <a href="#" class="list-group-item">
+                                        <i class="fa fa-edit fa-fw"></i>Pending Months
+                                        <span class="pull-right"><em>{{lease_details|getPendingMonthCountForRoom:item.room_id}}</em></span>
+                                        
+                                    </a>
+                                    
+                                    <a href="#" class="list-group-item">
+                                        <i class="fa fa-rupee fa-fw"></i>Pending Amount
+                                        
+                                        <span class="pull-right"><i class="fa fa-rupee fa-fw"></i><em>{{ lease_details|getPendingAmountForRoom:item.room_id }}</em></span>
+                                        
+                                    </a>
+                                   
+                                    
+                                </div>
+                                {% endwith %}
+                            </div>
+                            <a href="{% url 'room_details' item.room_id %}">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="panel-footer">Panel Footer</div>   
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

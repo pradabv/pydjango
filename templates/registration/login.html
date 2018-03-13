@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+{% load staticfiles %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{% static 'css/signin.css' %}">
+{% endblock %}
+
+{% block jsfiles %}
+<script src="{% static 'js/custom_js.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+
+<form class="form-signin"  method="post">
+    {% csrf_token %}
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <label for="inputEmail" class="sr-only">User Name</label>
+    <input type="input" id="inputEmail" name="username" class="form-control" placeholder="User Name" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>   
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</form>
+{{request.user.username}}
+{% if form.errors %}
+  <div class="alert alert-danger">
+      <p><strong> Error:</strong>Please enter a correct username and password. Note that both fields are case-sensitive.</p>
+  </div>
+{% endif %}
+{% endblock %}
