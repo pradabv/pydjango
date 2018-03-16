@@ -2,7 +2,7 @@
 {% load rent_extras %}
 
 {% block content %}
-
+{% with filtervalue=lease_details|get_lease_by_room:room_details.room_id %}
 <div class="panel panel-info">
     <div class="panel-heading">Room Details</div>
     <div class="panel-body">
@@ -12,7 +12,10 @@
                     <div class="panel-heading"><i class="fa fa-home fa-2x"></i>{{room_details.room_name}}</div>
                     <div class="panel-body">
                         <div class="list-group">
-                            
+                            <a href="#" class="list-group-item">
+                                    <i class="fa fa-rupee fa-fw"></i>Tenant
+                                    <span class="pull-right"><em>{{filtervalue.lease_tenant.tenant_name|title}}</em></span>
+                            </a>
                             <a href="#" class="list-group-item">
                                 <i class="fa fa-rupee fa-fw"></i>Pending Amount
                                 <span class="pull-right"><em>{{lease_details|getPendingAmountForRoom:room_details.room_id}}</em></span>
@@ -33,12 +36,15 @@
                     <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Transactions</div>
                     <div class="panel-body">
                         <div class="list-group">
-                            
+                            {% for item in lease_details %}
+                            {% if filtervalue.lease_tenant == item.lease_tenant %}
                             <a href="#" class="list-group-item">
-                                <i class="fa fa-rupee fa-fw"></i>Pending Amount
-                                <span class="pull-right"><em>sfgsg</em></span>
+                                {{item.lease_start_date}}
+                                <i class="fa fa-rupee fa-fw"></i>{{item.lease_amount}}
+                                <span class="pull-right"><em>{{item.lease_transaction.transaction_amount}}</em></span>
                             </a>
-                            
+                            {% endif %}
+                            {% endfor %}
                         </div>
                         
                     </div>
@@ -47,14 +53,19 @@
 
             <div class="col-lg-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Tenant</div>
+                    <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Old Tenant</div>
                     <div class="panel-body">
                         <div class="list-group">
                             
-                            <a href="#" class="list-group-item">
-                                <i class="fa fa-rupee fa-fw"></i>Pending Amount
-                                <span class="pull-right"><em>sfgsg</em></span>
-                            </a>
+                                {% for item in lease_details %}
+                                {% if filtervalue.lease_tenant != item.lease_tenant and not item.lease_transaction %}
+                                <a href="#" class="list-group-item">
+                                    {{item.lease_start_date}}
+                                    <i class="fa fa-rupee fa-fw"></i>{{item.lease_amount}}
+                                    <span class="pull-right"><em>{{item.lease_transaction.transaction_amount}}</em></span>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
                             
                         </div>
                         
@@ -65,5 +76,5 @@
         
     </div>
 </div>
-
+{% endwith %}
 {% endblock %}

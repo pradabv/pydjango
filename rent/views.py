@@ -1,9 +1,11 @@
 from django.shortcuts import render, loader
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from .models import Location, Property, Room, Transaction, Leasedetails, Tenant
 from django.db.models import Count, Avg
 from django.core import serializers
+import json
+from datetime import datetime
 
 # Create your views here.
 
@@ -59,3 +61,44 @@ def lease_list(request):
 def lease_details(request):
     lease = Leasedetails.objects.all()
     return render(request,'rent/room_details.html',{'lease_details':lease})
+
+def lease_create(request,room_id):
+    
+    
+    
+    if request.method == "POST":
+        room_id =  request.POST.get('room_id')
+        start_Date =  request.POST.get('start_date')
+        end_Date =  request.POST.get('end_date')
+        lease_amount =  request.POST.get('lease_amount')
+        tenant_id =  request.POST.get('tenant_id')
+        
+        valid_start_Date = datetime.strptime(start_Date, '%Y-%m-%d')
+        valid_end_Date = datetime.strptime(end_Date, '%Y-%m-%d')
+        
+        
+        lease = Leasedetails(lease_start_date= valid_start_Date,
+        lease_end_date= valid_end_Date,
+        lease_amount= lease_amount,
+        lease_tenant= Tenant(tenant_id=tenant_id),
+        lease_room=Room(room_id=room_id))
+
+        lease.save()
+
+        return HttpResponse(request)
+
+    room = Room.objects.get(room_id=room_id)
+    tenant_list = Tenant.objects.all()
+    return render(request,'rent/lease_create.html',{'room':room,'tenant_list':tenant_list})
+
+def get_country_list(request):
+    tenant = Tenant.objects.values('tenant_id','tenant_name')
+    #return render(request,'rent/lease_create.html',{'lease_details':lease})
+    #string_data = json.dump(lease,fp)
+    #return JsonResponse(list(lease),safe=False)
+    x =[
+      {'id': "someId1", 'name': "Display name 1"},
+      {'id': "someId2", 'name': "Display name 2"}
+    ]
+    return JsonResponse(list(tenant),safe=False)
+

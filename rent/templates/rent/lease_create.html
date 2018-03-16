@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Create Lease</div>
+    <div class="panel-body">
+        <form class="form" role="form" method="POST">
+            {% csrf_token %}
+            <input  hidden name="room_id" value="{{room.room_id}}" /> 
+            <div class="form-group">
+                <label for="property">Property</label>
+                <input type="text" class="form-control" id="property" name="property" value="{{room.room_property.property_name}}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="room">Room</label>
+                <input type="text" class="form-control" id="room"  value="{{room.room_name}} - {{room.room_description}}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="rent">Rent</label>
+                <input type="text" class="form-control" id="rent"  name="lease_amount" placeholder="Room Rent" value="{{room.room_rent}}">
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="text" class="form-control datepicker start_datepicker" id="start_date" name="start_date" value="">
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input type="text" class="form-control datepicker end_datepicker" id="end_date" name="end_date"  value="" >
+            </div>
+            <div class="form-group">
+                <label for="tenant">Tenant</label>
+                <select class="form-control" name="tenant_id">
+                    <option>Select</option>
+                    {% for item in tenant_list %}
+                        <option value="{{item.tenant_id}}">{{item.tenant_name}}</option>
+                    {% endfor %}
+                </select>
+                            
+                       
+            </div>            
+            <div class="form-group has-success">
+                <label class="control-label" for="inputSuccess">Input with success</label>
+                <input type="text" class="form-control" id="inputSuccess">
+                <p class="help-block">Example block-level help text here.</p>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" id="leasesubmit" value="Submit">
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}
