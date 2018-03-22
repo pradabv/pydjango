@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load rent_extras %}
+
+{% block content %}
+<div class="panel panel-info">
+    <div class="panel-heading">Tenant Details</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-home fa-2x"></i>{{tenant_details.tenant_name}}</div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">
+                                    <i class="fa fa-rupee fa-fw"></i>Tenant
+                                    <span class="pull-right"><em>{{tenant_details.tenant_name|title}}</em></span>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-rupee fa-fw"></i>Pending Amount
+                                <span class="pull-right"><em>{{tenant_details.tenant_name}}</em></span>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-edit fa-fw"></i>Pending Months
+                                <span class="pull-right"><em>{{tenant_details.tenant_name }}</em></span>
+                            </a>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Room List</div>
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">
+                                    <i class="fa fa-rupee fa-fw"></i>{{tenant_details.tenant_name|title}}
+                                    <span class="pull-right"><em>{{tenant_details.tenant_name|title}}</em></span>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table>
+
+            </table>
+        </div>
+        
+    </div>
+    </div>
+</div>
+
+{% endblock %}

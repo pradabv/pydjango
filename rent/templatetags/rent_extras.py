@@ -30,7 +30,12 @@ def get_matching_record(data_list,room):
 def get_lease_by_room(lease_details,room):
     for item in lease_details:
         if item.lease_room.room_id == room and current_month_record(item):
-            return item                
+            return item     
+
+@register.filter
+def filter_current_lease(item):
+    return  current_month_record(item)
+            
 
 @register.filter
 def get_pending_month_count(lease_details,room):

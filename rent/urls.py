@@ -12,6 +12,6 @@ urlpatterns = [
     path('tenants', views.tenants_list, name='tenants'),
     path('lease', views.lease_list, name='lease'),
     path('lease/create/<int:room_id>', views.lease_create, name='lease_create'),
-    path('transactions/tenant_details/<int:tenant_id>', views.transaction_list, name='tenant_details'),
+    path('tenants/tenant_details/<int:tenant_id>', views.tenant_details, name='tenant_details'),
     path('ajax/get_country_list', views.get_country_list, name='get_country_list'),
 ]

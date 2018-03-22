@@ -52,7 +52,7 @@ def tenants_list(request):
 
 def tenant_details(request, tenant_id):
     tenant = Tenant.objects.get(tenant_id=tenant_id)
-    return render(request,'rent/room_details.html',{'tenant_details':tenant})
+    return render(request,'rent/tenant_details.html',{'tenant_details':tenant})
 
 def lease_list(request):
     lease = Leasedetails.objects.all()

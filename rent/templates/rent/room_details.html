@@ -31,42 +31,88 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
+            <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Transactions</div>
                     <div class="panel-body">
-                        <div class="list-group">
-                            {% for item in lease_details %}
-                            {% if filtervalue.lease_tenant == item.lease_tenant %}
-                            <a href="#" class="list-group-item">
-                                {{item.lease_start_date}}
-                                <i class="fa fa-rupee fa-fw"></i>{{item.lease_amount}}
-                                <span class="pull-right"><em>{{item.lease_transaction.transaction_amount}}</em></span>
-                            </a>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                        
+                       <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Term</th>
+                                    <th>Amount</th>
+                                    <th>Amount Paid</th>
+                                    <th>Paid date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for item in lease_details|dictsort:"lease_start_date" %}
+                                {% if filtervalue.lease_tenant == item.lease_tenant %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{item.lease_start_date|date:"d-M"}} to {{item.lease_end_date|date:"d-M-y"}}</td>
+                                    <td>{{item.lease_amount}}</td>
+                                    <td>{{item.lease_transaction.transaction_amount}}</td>
+                                    <td>{{item.lease_transaction.transaction_date}}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                    <td>0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4">
+            </div>
+            <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Old Tenant</div>
                     <div class="panel-body">
                         <div class="list-group">
-                            
-                                {% for item in lease_details %}
-                                {% if filtervalue.lease_tenant != item.lease_tenant and not item.lease_transaction %}
-                                <a href="#" class="list-group-item">
-                                    {{item.lease_start_date}}
-                                    <i class="fa fa-rupee fa-fw"></i>{{item.lease_amount}}
-                                    <span class="pull-right"><em>{{item.lease_transaction.transaction_amount}}</em></span>
-                                </a>
-                                {% endif %}
-                                {% endfor %}
-                            
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>SNO</th>
+                                            <th>Term</th>
+                                            <th>Tenant</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for item in lease_details %}
+                                        {% if filtervalue.lease_tenant != item.lease_tenant and not item.lease_transaction %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{item.lease_start_date|date:"d-M"}} to {{item.lease_end_date|date:"d-M-y"}}</td>
+                                            <td><a href="{% url 'tenant_details' item.lease_tenant.tenant_id %}">{{item.lease_tenant.tenant_name}}</a></td>
+                                            <td>{{item.lease_amount}}</td>
+                                            <td>{{item.lease_transaction.transaction_amount|yesno:"Paid,Un Paid,maybe"}}</td>
+                                        </tr>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td>Total</td>
+                                            <td>0.00</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                         </div>
                         
                     </div>

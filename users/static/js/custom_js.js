@@ -4,24 +4,34 @@ $(document).ready(function() {
  
   $startDatePicker = $('.datepicker.start_datepicker');
   $endDatePicker = $('.datepicker.end_datepicker');
+  
 
-$startDatePicker.datepicker({
+
+
+  
+  $startDatePicker.datepicker({
+      format:'yyyy-mm-dd',
+      autoclose: true,
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $endDatePicker.datepicker('setStartDate', minDate);
+        
+        var date = minDate, y = date.getFullYear(), m = date.getMonth();
+        //var firstDay = new Date(y, m, 1);
+        var lastDay = new Date(y, m + 1, 0);
+        $endDatePicker.datepicker("setDate", lastDay);
+    });
+
+  $endDatePicker.datepicker({
     format:'yyyy-mm-dd',
     autoclose: true,
   }).on('changeDate', function (selected) {
-      var minDate = new Date(selected.date.valueOf());
-      $endDatePicker.datepicker('setStartDate', minDate);
-  });
-
-$endDatePicker.datepicker({
-  format:'yyyy-mm-dd',
-  autoclose: true,
-}).on('changeDate', function (selected) {
-        var maxDate = new Date(selected.date.valueOf());
-        $startDatePicker.datepicker('setEndDate', maxDate);
-    });
+          //var maxDate = new Date(selected.date.valueOf());
+         // $startDatePicker.datepicker('setEndDate', maxDate);
+      });
 
   
+     
 
 
   var $input = $(".typeahead");

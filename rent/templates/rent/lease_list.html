@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load rent_extras %}
+
 
 
 <div class="panel panel-info">
@@ -14,8 +16,36 @@
         
         <div class="tab-content">
             <div id="active_lease" class="tab-pane fade in active">
-                <h3>HOME</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <table class="table table-striped table-bordered data_table" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>S.NO</th>
+                                <th>Property</th>
+                                <th>Room</th>
+                                <th>Tenant</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Amount</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in lease_list %}
+                            {% if item|filter_current_lease %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td><a href="{% url 'property_details' item.lease_room.room_property.property_id %}">{{item.lease_room.room_property.property_name|title}}</a></td>
+                                    <td><a href="{% url 'room_details' item.lease_room.room_id %}">{{item.lease_room.room_name}}</a></td>
+                                    <td><a href="{% url 'tenant_details' item.lease_tenant.tenant_id %}">{{item.lease_tenant.tenant_name}}</a></td>
+                                    <td>{{item.lease_start_date}}</td>
+                                    <td>{{item.lease_end_date}}</td>
+                                    <td>{{item.lease_amount}}</td>
+                                </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+            
+                    </table>
             </div>
             <div id="history_lease" class="tab-pane fade">
                 <table class="table table-striped table-bordered data_table" width="100%" cellspacing="0">
@@ -37,7 +67,7 @@
                                 <td>{{forloop.counter}}</td>
                                 <td><a href="{% url 'property_details' item.lease_room.room_property.property_id %}">{{item.lease_room.room_property.property_name|title}}</a></td>
                                 <td><a href="{% url 'room_details' item.lease_room.room_id %}">{{item.lease_room.room_name}}</a></td>
-                                <td>{{item.lease_tenant.tenant_name}}</td>
+                                <td><a href="{% url 'tenant_details' item.lease_tenant.tenant_id %}">{{item.lease_tenant.tenant_name}}</a></td>
                                 <td>{{item.lease_start_date}}</td>
                                 <td>{{item.lease_end_date}}</td>
                                 <td>{{item.lease_amount}}</td>
