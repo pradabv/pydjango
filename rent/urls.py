@@ -9,6 +9,7 @@ urlpatterns = [
     path('property/property_details/<int:property_id>', views.property_details, name='property_details'),
     path('room_details/<int:room_id>', views.room_details, name='room_details'),
     path('transactions', views.transaction_list, name='transactions'),
+    path('transactions/create/<int:lease_id>', views.transactions_create, name='transactions_create'),
     path('tenants', views.tenants_list, name='tenants'),
     path('lease', views.lease_list, name='lease'),
     path('lease/create/<int:room_id>', views.lease_create, name='lease_create'),

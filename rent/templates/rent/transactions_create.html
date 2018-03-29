@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">Create Transaction</div>
+    <div class="panel-body">
+        <form class="form" role="form" method="POST">
+            {% csrf_token %}
+            <input  hidden name="lease_id" value="{{lease.lease_id}}" /> 
+            <div class="form-group col-lg-6">
+                <label for="property">Property</label>
+                <input type="text" class="form-control" id="property" name="property" value="{{lease.lease_room.room_property.property_name}}" disabled>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="room">Room</label>
+                <input type="text" class="form-control" id="room"  value="{{lease.lease_room.room_name}} - {{lease.lease_room.room_description}}" disabled>
+            </div>
+            
+            <div class="form-group col-lg-6">
+                <label for="start_date">Start Date</label>
+                <input type="text" class="form-control datepicker start_datepicker" id="start_date" name="start_date" value="{{lease.lease_start_date|date:'Y-m-d'}}" disabled>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="end_date">End Date</label>
+                <input type="text" class="form-control datepicker end_datepicker" id="end_date" name="end_date"  value="{{lease.lease_end_date|date:'Y-m-d'}}" disabled>
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="rent">Rent</label>
+                <input type="text" class="form-control" id="rent"  name="lease_amount" placeholder="Room Rent" value="{{lease.lease_amount}}" disabled>
+            </div>
+            
+            <div class="form-group col-lg-6">
+                <label for="tenant">Tenant</label>
+                <input type="text" class="form-control" id="tenant_name"  name="tenant_name" placeholder="Room Rent" value="{{lease.lease_tenant.tenant_name}}" disabled>
+            </div> 
+            <div class="form-group col-lg-12">
+                <label for="rent">Paying</label>
+                <input type="text" class="form-control" id="rent"  name="lease_amount" placeholder="Room Rent" value="">
+            </div>  
+              
+           <div class="form-group col-lg-6">
+                <input type="submit" class="btn btn-primary" id="leasesubmit" value="Submit">
+            </div>
+              
+            
+           
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}

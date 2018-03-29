@@ -13,9 +13,17 @@ class Property(models.Model):
     property_location = models.ForeignKey(Location, on_delete=models.CASCADE) 
     timestamp = models.DateTimeField(auto_now=True) 
 
+class Electricitymeter(models.Model):
+    meter_id = models.AutoField(primary_key=True)
+    meter_number = models.CharField(max_length=50)
+    meter_description = models.CharField(max_length=250)
+    timestamp = models.DateTimeField(auto_now=True)
+
+
 class Room(models.Model):
     room_id = models.AutoField(primary_key=True)
     room_property = models.ForeignKey(Property, on_delete=models.CASCADE) 
+    room_meter = models.ForeignKey(Electricitymeter, on_delete=models.CASCADE, null=True, blank=True) 
     room_name = models.CharField(max_length=50)
     room_rent = models.DecimalField(max_digits=8,decimal_places=2)
     room_description = models.CharField(max_length=250)

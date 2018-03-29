@@ -16,12 +16,20 @@
                                     <span class="pull-right"><em>{{tenant_details.tenant_name|title}}</em></span>
                             </a>
                             <a href="#" class="list-group-item">
-                                <i class="fa fa-rupee fa-fw"></i>Pending Amount
-                                <span class="pull-right"><em>{{tenant_details.tenant_name}}</em></span>
+                                    <i class="fa fa-rupee fa-fw"></i>Contact
+                                    <span class="pull-right"><em>{{tenant_details.tenant_contact}}</em></span>
+                                </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-rupee fa-fw"></i>Company
+                                <span class="pull-right"><em>{{tenant_details.tenant_company}}</em></span>
                             </a>
                             <a href="#" class="list-group-item">
-                                <i class="fa fa-edit fa-fw"></i>Pending Months
-                                <span class="pull-right"><em>{{tenant_details.tenant_name }}</em></span>
+                                    <i class="fa fa-rupee fa-fw"></i>Description
+                                    <span class="pull-right"><em>{{tenant_details.tenant_description}}</em></span>
+                                </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-edit fa-fw"></i>Joined date
+                                <span class="pull-right"><em>{{tenant_details.tenant_joindate }}</em></span>
                             </a>
                             
                         </div>
@@ -29,16 +37,102 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Room List</div>
                     <div class="panel-body">
-                        <div class="list-group">
-                            <a href="#" class="list-group-item">
-                                    <i class="fa fa-rupee fa-fw"></i>{{tenant_details.tenant_name|title}}
-                                    <span class="pull-right"><em>{{tenant_details.tenant_name|title}}</em></span>
-                            </a>
-                        </div>
+                        <table id ="tenant_rooms_datatable" class="table custom_data_table">
+                            <thead>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Room </th>
+                                    <th>Occupied On</th>
+                                    <th class="show-sum">T Rent</th>
+                                    <th class="show-sum">Bal Months</th>
+                                    <th class="show-sum">Balance</th>
+                                    <th>Action</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for item in lease_room_wise %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{item.room_name}}</td>
+                                    <td>{{item.start_date}}</td>
+                                    <td>{{item.total_rent}}</td>
+                                    <td>{{item.pending_months}}</td>
+                                    {% if item.balance_amount %}
+                                        <td>{{item.balance_amount}}</td>
+                                    {% else %}
+                                        <td>{{item.total_rent}}</td>
+                                    {% endif %}
+                                    <td><a class="btn" href="">Pay Now</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>                    
+                </div>
+            
+            </div>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-home fa-2x"></i>Lease List</div>
+                    <div class="panel-body">
+                        <table class="table custom_data_table">
+                            <thead>
+                                <tr>
+                                    <th>SNO</th>
+                                    <th>Property </th>
+                                    <th>Room </th>
+                                    <th>Term</th>
+                                    <th class="show-sum">Amount</th>
+                                    <th class="show-sum">Amount Paid</th>
+                                    <th>Paid date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for item in lease_details %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{item.lease_room.room_property.property_name}}</td>
+                                    <td>{{item.lease_room.room_name}}</td>
+                                    <td>{{item.lease_start_date|date:"d-M"}} to {{item.lease_end_date|date:"d-M-y"}}</td>
+                                    <td>{{item.lease_amount}}</td>
+                                    <td>{{item.lease_transaction.transaction_amount}}</td>
+                                    <td>{{item.lease_transaction.transaction_date}}</td>
+                                    <td><a class="btn" href="{% url 'transactions_create' item.lease_id %}">Pay Now</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
                         
                     </div>
                 </div>

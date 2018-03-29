@@ -1,6 +1,55 @@
 $(document).ready(function() {
 
   $('.data_table').DataTable();
+
+  $('.custom_data_table').DataTable( {
+    "footerCallback": function ( row, data, start, end, display ) {
+        var api = this.api(), data;
+
+        // Remove the formatting to get integer data for summation
+        var intVal = function ( i ) {
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+        };
+        
+        col_length = api.columns().header().length;
+        for(var col_index=0; col_index<col_length; col_index++){
+          if($(api.columns( col_index ).header()).hasClass('show-sum')){
+              
+              // Total over all pages
+              total = api
+              .column(col_index)
+              .data()
+              .reduce( function (a, b) {
+                  return intVal(a) + intVal(b);
+              }, 0 );
+
+              // Total over this page
+              pageTotal = api
+              .column( col_index, { page: 'current'} )
+              .data()
+              .reduce( function (a, b) {
+                  return intVal(a) + intVal(b);
+              }, 0 );
+
+              // Update footer
+              /*
+              $( api.column( col_index ).footer() ).html(
+                '$'+pageTotal +' ( $'+ total +' total)'
+              );
+              */
+             $( api.column( col_index ).footer() ).html(pageTotal);
+
+
+          }
+
+        }
+      
+       
+    }
+} );
  
   $startDatePicker = $('.datepicker.start_datepicker');
   $endDatePicker = $('.datepicker.end_datepicker');
